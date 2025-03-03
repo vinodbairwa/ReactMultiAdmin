@@ -1,38 +1,251 @@
-.App {
-  text-align: center;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+    background:linear-gradient(to right, #141e30, #243b55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+
+.login-container, .signup-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+button {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+nav button:hover {
+    background: #0056b3;
+}
+
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+
+.signup .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+p button {
+    background: none;
+    color: #007bff;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+p button:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 400px) {
+    .login-container, .signup-container {
+        width: 90%;
+    }
+}
+
+
+.signup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+}
+.SignupData{
+    border-radius: 10px;
+    box-shadow:   1px 1px 4px 6px rgba(1, 1, 1, 0.5);
+    width: 50%;
+    padding: 10px;
+    background-color: whitesmoke;
+}
+
+
+.EmailVerification,.login-container,.OtpVerification{
+    box-shadow:   1px 1px 4px 6px rgba(1, 1, 1, 0.5);
+    border-radius: 10px;
+    padding: 30px;
+    background-color: whitesmoke;
+}
+
+
+
+/* --------------------------------------------- */
+/* Dashboard Styles */
+.dashboard {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Navigation */
+nav {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(255, 255, 255, 0.1);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+nav a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+nav a:hover {
+    background: rgba(0, 173, 181, 0.8);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 173, 181, 0.4);
+}
+
+h1 {
+    color: white;
+    margin-left: 270px;
+    font-size: 24px;
+    padding: 20px;
+}
+
+.active-button {
+    background: rgba(0, 173, 181, 0.8) !important;
+    color: white;
+    cursor: pointer;
   }
-}
+  
+  .inactive-button {
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+    color: white;
+    cursor: pointer;
+  } 
+  
+/* ---------------------------------- */
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.forgotpassword {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .forgotpassword h2 {
+    color: #333;
+    margin-bottom: 15px;
   }
+  
+  .forgotpassword input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .forgotpassword input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .forgetBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .forgetBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .text-red-500 {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+
+
+p #frtBtn{
+    /* background-color: #ffffff; */
+    margin-bottom: 10px;
+    top: 1px;
+    height: 10px;
 }

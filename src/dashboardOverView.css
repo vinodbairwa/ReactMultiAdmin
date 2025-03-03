@@ -1,0 +1,365 @@
+
+.manual-orders,.broker-orders,.master-orders,.usersCont,.Domain-orders,.Domain-Paper-orders{
+    max-width: 1000px;
+    width: 340px;
+    /* margin: 20px auto; */
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(62, 145, 110, 0.5);
+    text-align: center;
+    max-height: 600px;
+    height: 370px;
+    text-align: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+     
+}
+
+.manual-orders:hover,
+.broker-orders:hover,
+.master-orders:hover,
+.usersCont:hover,
+.Domain-orders:hover,
+.Domain-Paper-orders:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px rgb(0, 0, 10);
+}
+
+
+.dashboard{
+    /* border: 2px solid red; */
+    margin-left: 180px;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    position:relative;
+    justify-content: center;
+    gap: 90px;
+    
+}
+
+
+.navbarDiv > div:hover {
+    transform: scale(1.02);
+}
+
+
+
+.dashboard-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;  
+    max-width: 1390px; 
+    height: auto;
+    min-height: 60vh; 
+    box-sizing: border-box; 
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) { 
+    .dashboard-content {
+        width: 95vw;
+        min-height: 50vh;
+    }
+}
+
+@media (max-width: 480px) { 
+    .dashboard-content {
+        width: 100vw; 
+        min-height: 40vh; 
+        flex-direction: column; 
+    }
+}
+
+
+.navbarDiv h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.navbarDiv h3 {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+
+.order-status-list {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
+.order-status-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-status-item:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+#mainheading {
+    margin: 10px auto; 
+    display: block; /* Ensures it behaves like a block element */
+    text-align: center; /* Centers text inside */
+    background-color: #6666661a;
+    width: 330px;
+    border-radius: 10px;
+    color: #fafafaf3;
+    box-shadow: 0 4px 6px rgba(62, 145, 110, 0.5);
+    padding: 10px; /* Adds space inside */
+    max-height: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+#data{
+    background-color: #f7ebeb;
+    width: 210px;
+    margin-left: 45px;
+    border-radius: 10px;
+    height: 4vh;
+}
+
+/* --------------------------------- */
+
+
+
+/* General Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    word-wrap: break-word; /* Prevents content from overflowing */
+}
+
+/* Zebra Striping */
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Hover Effect */
+tbody tr:hover {
+    background: #f1f1f1;
+}
+
+/* Responsive Table: Scroll on small screens */
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* Text Styling */
+p {
+    color: #888;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+#total_user {
+    color: black;
+    font-weight: bold;
+}
+
+/* Responsive Users Container */
+.users {
+    max-width: 100%;
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+    .users {
+        padding: 5px;
+        margin-top: 0;
+    }
+}
+
+
+
+
+navbar {
+    width: 80%;
+    max-width: 800px; /* Prevents it from stretching too wide */
+    margin: 0 auto; /* Centers the navbar itself */
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    /* border: 2px solid red; */
+ 
+}
+
+navbar button {
+    width: auto; /* Adjust width dynamically */
+    padding: 10px 20px; /* Better spacing */
+    border: none;
+    color: black;
+    font-weight: bold;
+    margin: 10px; /* Adjust for equal spacing */
+    background: none; /* Keeps button transparent */
+    cursor: pointer;
+}
+
+navbar button:hover {
+    color: rgba(0, 173, 181, 0.8);
+    background-color: #33333359;
+  
+}
+#navbarUsers{
+    max-height: 1000px;
+    height: 200px;
+    flex-wrap: wrap;
+    justify-content: end;
+    align-items: center;
+    position: relative;
+    margin-bottom: 700px;
+    max-width: 100%;
+    /* min-width: 100%; */
+    width: auto;
+}
+
+#navbarUsers navbar button{
+    background-color: rgba(38, 47, 61, 0);
+}
+
+
+.EditDiv{
+    border: 2px solid rgba(1, 2, 14, 0.2);
+    max-width: 1000px;
+    width: 1000px;
+    margin: 20px auto;
+    padding: 1px 1px 10px 1px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); */
+    text-align: center;
+    margin: 0px 1px 1px 1px ;
+    /* background-color: white; */
+    
+ 
+}
+
+#navbarUsers .active-button {
+    background:  rgba(77, 87, 90, 0.103)!important;
+    color: rgba(0, 173, 181, 0.8)  !important;
+    border-radius: 10px;
+
+}
+.EditDiv button{
+    background-color: rgba(0, 173, 181, 0.8) ;
+}
+
+.fixed {
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    
+}
+
+
+.bg-white{
+    margin-top: 5px;
+    display: flex ;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); */
+    background-color: rgba(192, 219, 226, 0.774);
+    border-radius: 10px;
+    width: 70%;
+    box-shadow: 0 4px 6px rgba(62, 145, 110, 0.5);
+}
+
+.block{
+    width: 50%;
+    display: flex ;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+    border-radius: 10px;
+}
+
+input{
+    width: 100%;
+    border: none;
+}
+
+select{
+    width: 100%;
+}
+
+#BackUser{
+    width: auto;;
+    background-color: rgba(0, 173, 181, 0.8) ;
+    border-radius: 10px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    border: none;
+    text-align: center;
+}
+
+.UsersAdd {
+    position: absolute;
+    top: 130%;
+    left: 0;
+    width: 100%;
+    /* background-color: white; */
+    z-index: 10;
+    transform: translateX(10px);
+    text-align: center
+}
+
+#logout{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#logout:hover{
+    background-color: red;
+    box-shadow: 1px 6px inset(0,0,10);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(175, 115, 75, 0.4);
+}
