@@ -21,7 +21,10 @@ const Logout = () => {
                 localStorage.removeItem("access_token");
 
                 // ✅ Try to delete "admin_session_id" (Only works if not HttpOnly)
-                document.cookie = "admin_session_id=; Path=/; Max-Age=0;";
+                // document.cookie = "admin_session_id=; Path=/; Max-Age=0;";
+                // document.cookie = "admin_session_id=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+                // document.cookie = "admin_session_id=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
                 navigate("/"); // Redirect to login page
             } else {

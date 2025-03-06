@@ -7,14 +7,11 @@
 .BrokerData {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    /* background-color: #f5f5f5; */
+    /* min-height: 100vh; */
     align-items: center;
     justify-content: center;
-    /* border: 2px solid red; */
     width: 74%;
     gap: 0px;
-  
     box-shadow: 0 4px 20px rgba(134, 133, 138, 0.945);
     border-radius: 10px;
 }
@@ -74,6 +71,7 @@
     margin: 15px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
 }
 
 /* Footer */
@@ -95,8 +93,10 @@
 .BrokerEdit{
     background-color:  rgba(128, 119, 207, 0.39);
     size: 10px;
-    width: 700px;
+    /* width: 700px; */
     color: white;
+    height: 100vh;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,3 +135,181 @@
     border-radius: 10px;
     
 }
+
+ 
+/* --------------------- */
+.BrokerCreate{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.broker-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.broker-form input,
+.broker-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.broker-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.broker-form button:hover {
+    background-color: #0056b3;
+}
+
+
+/* -----------------websockets--------------- */
+
+.websocketMain{
+    width: 60%;
+    height: 46vh;
+}
+
+
+.websocketSub{
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 300px;
+    margin: auto;
+    background-color: #ccc;
+    width: 100%;
+    box-shadow: 1px 1px 200px 1px rgb(16, 187, 218);
+}
+
+.websocketSub ul{
+    font-weight: bold;
+    /* border: 2px solid black; */
+    gap: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+.websocketSub ul li{
+    font-weight: bold;
+    /* border: 2px solid black; */
+    height: 35px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 200px 1px rgb(16, 187, 218);
+    background-color: #e7eaf783;
+    width: 40%;
+  
+}
+
+
+
+/* ---------------Admins management--------- */
+
+.mainAdmin{
+    background-color: whitesmoke;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 20px 1px rgba(104, 102, 133, 0.918);
+    
+}
+
+.adminsTable{
+    border-radius: 10px;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#total_Admins{
+    color: black;
+    font-weight: bold
+}
+
+
+/* -------------- switch button----------------- */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #44b65d;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color:  #ccc;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px  #ccc;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

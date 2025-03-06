@@ -27,6 +27,7 @@ export default function Login({ onSignupClick }) {
 
             console.log("response", response);
             setMessage(response.data.Message);
+            console.log("Logout successful", response.data);
 
             // Store access token in localStorage
             localStorage.setItem("access_token", response.data.access_token);
@@ -36,7 +37,8 @@ export default function Login({ onSignupClick }) {
         
         } catch (error) {
             console.error("Login failed:", error.response?.data?.detail || error.message);
-            setMessage("❌ Invalid email or password.");
+            alert(error.response?.data?.detail || "An unexpected error occurred.");
+            // setMessage("❌ Invalid email or password.");
         }
     };
 

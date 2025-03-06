@@ -71,6 +71,7 @@ import OffersSubscriptions from "./OffersSubscriptions";
 import MediaContent from "./MediaContent";
 import ContactSupport from "./ContactSupport";
 import ForgetPassword from "./forgetPassword";
+import AdminManagement from "./AdminManage"
 import  Logout from "./Logout";
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
                     {/* ✅ Define nested routes inside Dashboard */}
                     <Route index element={<DashboardOverView />} />
                     <Route path="userManagement" element={<UserManagement />} />
+                    <Route path="AdminManagement" element={<AdminManagement />} />
                     <Route path="ordersTransactions" element={<OrdersTransactions />} />
                     <Route path="tradingStrategies" element={<TradingStrategies />} />
                     <Route path="brokersWebSockets" element={<BrokersWebSockets />} />
@@ -94,11 +96,7 @@ function App() {
                     <Route path="contactSupport" element={<ContactSupport />} />
                     <Route path="logout" element={<Logout/>} />
                 
-                    {/* <Route path="brokersWebSockets/*" element={<BrokersWebSockets />}>
-                    <Route path="add" element={<AddBroker />} />
-                    <Route path="edit" element={<EditBroker />} />
-                    <Route path="delete" element={<DeleteBroker />} />
-                    </Route> */}
+                    
 
                 </Route>
             </Routes>

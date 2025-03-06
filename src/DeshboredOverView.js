@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './dashboardOverView.css'; 
 
 export default function DashboardOverView() {
@@ -12,6 +13,9 @@ export default function DashboardOverView() {
     const [brokerOderStatus, setBrokerOder] = useState([]);
     const [domainOrderStatus, setDomainOrder] = useState([]);
     const [domainPaperOrderStatus, setDomainPaperOrder] = useState([]);
+
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // ---------------- fetchUsers ----------
@@ -27,6 +31,14 @@ export default function DashboardOverView() {
                     },
                     credentials: "include",
                 });
+
+               if (response.status === 401) {  // Check for Unauthorized error
+                    // alert("Session expired. Please log in again.");
+                    localStorage.removeItem("access_token"); // Remove the expired token
+                    navigate("/"); // Redirect to login page
+    
+                    return;
+                }
                 
                 if (!response.ok) {
                     throw new Error(`Error: ${response.statusText}`);
@@ -40,8 +52,10 @@ export default function DashboardOverView() {
                 }
             } catch (error) {
                 console.error("Error fetching users:", error);
+               
             }
         };
+       
 
         // ----------------- fetchStrategies----------
         const fetchStrategies = async () => {
@@ -73,7 +87,7 @@ export default function DashboardOverView() {
             }
         };
 
-        // --------master oders fetch---------------
+    // --------master oders fetch---------------
         const MasterOrdersFun = async () => {
            
             try {
@@ -225,7 +239,6 @@ export default function DashboardOverView() {
 
                 const data = await response.json();
                 
-                console.log("Domain",data)
                 const orders = ["rejected", "pending", "expired", "active", "cancelled", "failed", "closed", "in progress", "completed"];
 
                 if (data.Domain_Orders_Data) {
@@ -271,7 +284,6 @@ export default function DashboardOverView() {
 
                 const data = await response.json();
                 
-                console.log("Domain",data)
                 const orders = ["rejected", "pending", "expired", "active", "cancelled", "failed", "closed", "in progress", "completed"];
 
                 if (data.Domain_Paper_Data) {
@@ -304,9 +316,8 @@ export default function DashboardOverView() {
         BrokerOrdersFun();
         DomainOrdersFun();
         DomainPaperOrdersFun();
-    }, []);
+    }, [navigate]);
 
-    
 
     return (
         <div className="dashboard">

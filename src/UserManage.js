@@ -99,7 +99,7 @@ export default function  UserManagement() {
             
                 const responseData = await response.json()
                 if (!response.ok) {
-                    throw new Error(responseData.detail || "An error occurred while updating the user.");
+                    throw new Error(responseData.detail || "An error occurred while delete the user.");
                 }
         
         
@@ -150,7 +150,7 @@ export default function  UserManagement() {
                 mobile: user.mobile || "",    // Ensures input shows current mobile
                 gender: user.gender || "male" // Ensures gender is preselected
             });
-            handleEditUser()
+            // handleEditUser()
         }
     
     useEffect(() => {

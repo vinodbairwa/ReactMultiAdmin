@@ -1,235 +1,9 @@
 
 
-// import React, { useEffect, useState } from "react";
-// import { Pencil, Trash } from "lucide-react";
-
-// export default function BrokerGet() {
-//     const [brokers, setBrokers] = useState([]);
-//     const [error, setError] = useState(null);
-//     const [step ,setStep] = useState(1);
-//     const [formData, setFormData] = useState({ BrokerName: "", User_ID: "", Status: "", Route: "",Image: "",AutoLogin:"",Disable:"" });
-
-//     useEffect(() => {
-//         fetchBrokers();
-//     }, []);
-    
-//     const handleInputChange = (e) => {
-//         setFormData({ ...formData, [e.target.name]: e.target.value });
-//     };
-
-//     const fetchBrokers = async () => {
-//         try {
-//             const response = await fetch("http://localhost:8000/User/Broker/Get", {
-//                 method: "GET",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-//                 },
-//                 credentials: "include",
-//             });
-
-//             const data = await response.json();
-//             if (response.ok) {
-//                 setBrokers(data.broker_data);
-//             } else {
-//                 throw new Error(data.detail || "Failed to fetch brokers");
-//             }
-//         } catch (error) {
-//             setError(error.message);
-//         }
-//     };
-
-//     // ✅ Handle Edit Broker
-//     const handleEditBroker = async (broker) => {
-//         const newName = prompt("Enter new Broker Name:", broker.broker_name);
-//         if (!newName) return;
-        
-//         console.log("broker edit is call")
-//         try {
-//             const response = await fetch(`http://localhost:8000/Admin/Broker/Update/${broker.id}`, {
-//                 method: "PUT",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-//                 },
-//                 credentials: "include",
-//                 body: JSON.stringify(formData),
-//             });
-
-//             const result = await response.json();
-//             if (response.ok) {
-//                 alert("Broker updated successfully!");
-//                 fetchBrokers(); // Refresh the table
-//             } else {
-//                 throw new Error(result.detail || "Failed to update broker");
-//             }
-//         } catch (error) {
-//             console.error("Error updating broker:", error);
-//             alert(error.message);
-//         }
-//     };
-
-//     // ✅ Handle Delete Broker
-//     const handleDeleteBroker = async (brokerId) => {
-//         const confirmDelete = window.confirm("Are you sure you want to delete this broker?");
-//         if (!confirmDelete) return;
-
-//         try {
-//             const response = await fetch(`http://localhost:8000/Admin/Broker/Delete/${brokerId}`, {
-//                 method: "DELETE",
-//                 headers: {
-//                     "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-//                 },
-//                 credentials: "include",
-//             });
-
-//             if (response.ok) {
-//                 alert("Broker deleted successfully!");
-//                 setBrokers(brokers.filter((broker) => broker.id !== brokerId)); // Remove from UI
-//             } else {
-//                 const result = await response.json();
-//                 throw new Error(result.detail || "Failed to delete broker");
-//             }
-//         } catch (error) {
-//             console.error("Error deleting broker:", error);
-//             alert(error.message);
-//         }
-//     };
-
-//     return (
-//         <div className="Broker">
-
-//         {step === 1 && (brokers.length > 0 ? ( 
-//             <div className="BrokerGet">
-//                 <h3>Broker List</h3>
-//                 {error && <p className="error-message">{error}</p>}
-
-//                 <table className="broker-table">
-//                     <thead>
-//                         <tr>
-//                             <th>ID</th>
-//                             <th>User ID</th>
-//                             <th>Broker Name</th>
-//                             <th>Status</th>
-//                             <th>Route</th>
-//                             <th>Image</th>
-//                             <th>AutoLogin</th>
-//                             <th>Disable</th>
-//                             <th>Edit</th>
-//                             <th>Delete</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {brokers.length > 0 ? (
-//                             brokers.map((broker) => (
-//                                 <tr key={broker.id}>
-//                                     <td>{broker.id}</td>
-//                                     <td>{broker.user_id}</td>
-//                                     <td>{broker.broker_name}</td>
-//                                     <td>{broker.is_active ? "Yes" : "No"}</td>
-//                                     <td>{broker.broker_api}</td>
-//                                     <td>
-//                                         <img src={broker.broker_image_url} alt="Broker" width="50" />
-//                                     </td>
-//                                     <td>{broker.is_autologin ? "Yes" : "No"}</td>
-//                                     <td>{broker.is_disable ? "Yes" : "No"}</td>
-//                                     <td>
-//                                         <Pencil
-//                                             size={20}
-//                                             color="#007bff"
-//                                             cursor="pointer"
-//                                             onClick={() => handleEditBroker(broker)}
-//                                         />
-//                                     </td>
-//                                     <td>
-//                                         <Trash
-//                                             size={20}
-//                                             color="red"
-//                                             cursor="pointer"
-//                                             onClick={() => handleDeleteBroker(broker.id)}
-//                                             style={{ marginLeft: "10px", transition: "0.3s" }}
-//                                             onMouseOver={(e) => (e.target.style.color = "darkred")}
-//                                             onMouseOut={(e) => (e.target.style.color = "red")}
-//                                         />
-//                                     </td>
-//                                 </tr>
-//                             ))
-//                         ) : (
-//                             <tr>
-//                                 <td colSpan="10">No Brokers Found</td>
-//                             </tr>
-//                         )}
-//                     </tbody>
-//                 </table>
-//             </div>
-//         ):
-//         <p></p>
-//         )}
-
-//         {step === 2 && <div className="BrokerEdit">
-//             <label className="block mb-2">
-//                             Name:
-//                             <input
-//                                 type="text"
-//                                 name="name"
-//                                 value={formData.name}
-//                                 onChange={handleInputChange}
-//                                 className="border p-2 w-full rounded"
-//                             />
-//                         </label>
-//                         <label className="block mb-2">
-//                             Email:
-//                             <input
-//                                 type="email"
-//                                 name="email"
-//                                 value={formData.email}
-//                                 onChange={handleInputChange}
-//                                 className="border p-2 w-full rounded"
-//                             />
-//                         </label>
-//                         <label className="block mb-2">
-//                             Mobile:
-//                             <input
-//                                 type="text"
-//                                 name="mobile"
-//                                 value={formData.mobile}
-//                                 onChange={handleInputChange}
-//                                 className="border p-2 w-full rounded"
-//                             />
-//                         </label>
-//                         <label className="block mb-4">
-//                             Gender:
-//                             <select
-//                                 name="gender"
-//                                 value={formData.gender}
-//                                 onChange={handleInputChange}
-//                                 className="border p-2 w-full rounded"
-//                             >
-//                                 <option value="male">Male</option>
-//                                 <option value="female">Female</option>
-//                                 <option value="other">Other</option>
-//                             </select>
-//                         </label>
-//                         <div className="flex justify-end gap-2">
-//                             <button onClick={() => setUserId(null) || setStep(1)} className="bg-gray-400 text-white px-4 py-2 rounded">
-//                                 Cancel
-//                             </button>
-//                             <button onClick={() => { handleEditUser(); setStep(1); }}   className="bg-blue-500 text-white px-4 py-2 rounded">
-//                                 Save
-//                             </button>
-//         </div>
-                   
-//             }
-
-//     </div>
-//     );
-// }
-
-
-
 
 import React, { useEffect, useState } from "react";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash , Plus} from "lucide-react";
+import BrokerForm  from './BrokerCreate'
 
 export default function BrokerGet() {
     const [brokers, setBrokers] = useState([]);
@@ -250,7 +24,7 @@ export default function BrokerGet() {
     useEffect(() => {
         fetchBrokers();
     }, []);
-
+    
     const fetchBrokers = async () => {
         try {
             const response = await fetch("http://localhost:8000/User/Broker/Get", {
@@ -414,6 +188,11 @@ export default function BrokerGet() {
                             )}
                         </tbody>
                     </table>
+                    <button id="add" onClick={() => setStep(3)} style={{ background: "none", border: "", cursor: "pointer" }}>
+                                <Plus size={24} color="green" />
+                            </button>
+                 
+                    
                 </div>
             )}
 
@@ -454,6 +233,19 @@ export default function BrokerGet() {
                         <button onClick={() => setStep(1)}>Cancel</button>
                         <button onClick={handleSaveEdit}>Save</button>
                     </div>
+                    
+                    
+                </div>
+                
+            )}
+        
+            {step === 3 && (
+                // <p>hello mota bhai</p>
+                <div className="BrokerCreate">
+                {/* <BrokerForm /> */}
+                <BrokerForm fetchBrokers={fetchBrokers} setStep={setStep} />
+                
+               
                 </div>
             )}
         </div>
