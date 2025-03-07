@@ -52,10 +52,12 @@
     justify-content: center;
     align-items: center;
     width: 90vw;  
-    max-width: 1390px; 
+    max-width: 80vw; 
     height: auto;
     min-height: 60vh; 
     box-sizing: border-box; 
+    /* overflow: scroll; */
+    overflow-x: hidden;
 }
 
 /* Responsive adjustments */
@@ -64,6 +66,13 @@
         width: 95vw;
         min-height: 50vh;
     }
+    .navbarDiv h2 {
+        font-size: 1.1rem; /* Even smaller for mobile */
+    }
+    .navbarDiv h3 {
+        font-size: 1rem;
+    }
+
 }
 
 @media (max-width: 480px) { 
@@ -72,6 +81,14 @@
         min-height: 40vh; 
         flex-direction: column; 
     }
+    .navbarDiv h2 {
+        font-size: 1rem; /* Smallest */
+    }
+    .navbarDiv h3 {
+        font-size: 0.9rem;
+    }
+  
+    
 }
 
 
@@ -110,6 +127,12 @@
 @media (max-width: 768px) {
     .dashboard {
         grid-template-columns: 1fr;
+    }
+    navbarDiv h2 {
+        font-size: 1.1rem; /* Even smaller for mobile */
+    }
+    .navbarDiv h3 {
+        font-size: 1rem;
     }
 }
 
@@ -216,7 +239,7 @@ p {
 
 
 
-navbar {
+#navbar {
     width: 80%;
     max-width: 800px; /* Prevents it from stretching too wide */
     margin: 0 auto; /* Centers the navbar itself */
@@ -230,18 +253,18 @@ navbar {
  
 }
 
-navbar button {
+#navbar button {
     width: auto; /* Adjust width dynamically */
     padding: 10px 20px; /* Better spacing */
     border: none;
-    color: black;
+    color: white;
     font-weight: bold;
     margin: 10px; /* Adjust for equal spacing */
     background: none; /* Keeps button transparent */
     cursor: pointer;
 }
 
-navbar button:hover {
+#navbar button:hover {
     color: rgba(0, 173, 181, 0.8);
     background-color: #33333359;
   
@@ -259,19 +282,19 @@ navbar button:hover {
     width: auto;
 }
 
-#navbarUsers navbar button{
-    background-color: rgba(38, 47, 61, 0);
-}
 
 
 .EditDiv{
     border: 2px solid rgba(1, 2, 14, 0.2);
     max-width: 1000px;
-    width: 1000px;
-    margin: 20px auto;
+    width: 600px;
+    /* margin: 20px auto; */
     padding: 1px 1px 10px 1px;
     border-radius: 10px;
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     text-align: center;
     margin: 0px 1px 1px 1px ;
     /* background-color: white; */
@@ -279,7 +302,29 @@ navbar button:hover {
  
 }
 
-#navbarUsers .active-button {
+.EditDiv input[type="checkbox"]{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    border-radius: 100px;
+    color: green;
+    background-color: green;
+
+   
+}
+
+.EditDiv form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#navbar .active-button {
     background:  rgba(77, 87, 90, 0.103)!important;
     color: rgba(0, 173, 181, 0.8)  !important;
     border-radius: 10px;
@@ -362,4 +407,17 @@ select{
     box-shadow: 1px 6px inset(0,0,10);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(175, 115, 75, 0.4);
+}
+
+
+.addAdmin{
+    background-color: none;
+    width: 10%;
+    display: flex;
+    font-weight: bold;
+    background: none;
+}
+
+.addAdmin:hover{
+    color: rgb(2, 17, 17);
 }

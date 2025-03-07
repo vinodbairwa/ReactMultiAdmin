@@ -1,15 +1,21 @@
 
-
+import React, { useContext } from "react";
 
 import { useState, useEffect, useCallback } from "react";
 import { Pencil, Trash, Plus } from "lucide-react";
+
+import { UserContext } from "./currentUser"; 
+
 
 export default function AdminManagement() {
     const [admins, setAdmins] = useState([]);
     const [step, setStep] = useState(1);
     const [editId , setEditID] = useState();
     const [formData, setFormData] = useState({});
+
+    const { CurrentUser} = useContext(UserContext);
     
+    // console.log(CurrentUser)
 
     const fetchAdmins = useCallback(async () => {
         try {
@@ -88,6 +94,7 @@ export default function AdminManagement() {
             
             alert("Admin updated successfully!");
             setStep(1);
+           
         } catch (error) {
             console.error("Error updating admin:", error);
             alert(`Failed to update admin: ${error.message}`);
@@ -119,76 +126,70 @@ export default function AdminManagement() {
         setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
     };
     
-    const toggleAdminStatus = async (id) => {
-        const adminToToggle = admins.find((admin) => admin.id === id);
-        if (!adminToToggle) return;
+//  ----------------------
+
+const SwitchAdmin = async (admin, field) => {
     
-        // Prevent domain owners from disabling themselves or other domain owners
-        if (adminToToggle.domain_owner) {
-            alert("Domain owners cannot disable themselves or other domain owners.");
+    try {
+        if (!CurrentUser) {
+            alert("User data is not loaded. Please try again.");
             return;
         }
-    
-        const updatedStatus = !adminToToggle.is_disabled; // Toggle value
-    
-        // Optimistically update UI
-        setAdmins((prevAdmins) =>
-            prevAdmins.map((admin) =>
-                admin.id === id ? { ...admin, is_disabled: updatedStatus } : admin
-            )
-        );
-    
-        // Send API request with only is_disabled
-        await SwitchAdmin(id, { is_disabled: updatedStatus });
-    };
-    const SwitchAdmin = async (id, updatedFields = formData) => {
-        try {
-            const adminToUpdate = admins.find((admin) => admin.id === id);
-            if (!adminToUpdate) return;
-    
-            // Prevent domain owners from updating other domain owners
-            if (formData.domain_owner && adminToUpdate.domain_owner) {
+        console.log(CurrentUser.role_id)
+        if (field === "is_disabled") {
+            if (admin.domain_owner && CurrentUser.role_id !== 1) {
                 alert("You cannot update another domain owner's status.");
                 return;
             }
-            
-            const currentUserRole = parseInt(localStorage.getItem("role_id"), 10);
-            console.log("currentUserRole",currentUserRole)
-    
-            console.log("Editing admin:", id, updatedFields);
-    
-            const response = await fetch(`http://localhost:8000/Admin/UpdateData/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-                },
-                credentials: "include",
-                body: JSON.stringify(updatedFields),
-            });
-    
-            const responseData = await response.json();
-            if (!response.ok) {
-                throw new Error(responseData.detail || "An error occurred while updating the user.");
-            }
-    
-            setAdmins((prevAdmins) =>
-                prevAdmins.map((admin) =>
-                    admin.id === id ? { ...admin, ...updatedFields } : admin
-                )
-            );
-    
-            if (updatedFields === formData) {
-                alert("Admin updated successfully!");
-                setStep(1);
-            }
-        } catch (error) {
-            console.error("Error updating admin:", error);
-            alert(`Failed to update admin: ${error.message}`);
         }
-    };
-    
-    
+
+        if (field === "is_user_exist") {
+            if (admin.domain_owner && CurrentUser.role_id !== 1) {
+                alert("You cannot update another domain owner's is_user_exist.");
+                return;
+            }
+        }
+
+        if (field === "domain_owner" && CurrentUser.role_id !== 1) {
+            alert("Only super admin (role_id 1) can change domain owner status.");
+            return;
+        }
+
+// Toggle field value
+        const updatedFields = { [field]: !admin[field] };
+
+        console.log(`Editing admin ${admin.id}:`, updatedFields);
+
+        const response = await fetch(`http://localhost:8000/Admin/UpdateData/${admin.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+            },
+            credentials: "include",
+            body: JSON.stringify(updatedFields),
+        });
+
+        const responseData = await response.json();
+        if (!response.ok) {
+            throw new Error(responseData.detail || "An error occurred while updating the user.");
+        }
+
+        // ✅ Update local state
+        setAdmins((prevAdmins) =>
+            prevAdmins.map((a) =>
+                a.id === admin.id ? { ...a, [field]: !a[field] } : a
+            )
+        );
+        fetchAdmins();
+
+        console.log("Admin updated successfully!");
+    } catch (error) {
+        console.error("Error updating admin:", error);
+        alert(error.message);
+    }
+};
+
     
     return (
         <div className="mainAdmin">
@@ -219,9 +220,22 @@ export default function AdminManagement() {
                                             <input
                                             type="checkbox"
                                             checked={!admin.domain_owner}
-                                            onChange={() => toggleAdminStatus(admin.id)}
+                                            onChange={() => SwitchAdmin(admin,"domain_owner")}
+                                            disabled={CurrentUser?.role_id !== 1 }
                                         />
                                         <span className="slider round"></span>
+                                        </label>
+                                    </td>
+
+                                <td>
+                                        <label className="switch">
+                                            <input
+                                                type="checkbox"
+                                                checked={!admin.is_disabled}
+                                                onChange={() => SwitchAdmin(admin,"is_disabled")}
+                                                disabled={admin.domain_owner &&CurrentUser?.role_id !== 1 } // Prevent domain owner from disabling another domain owner
+                                            />
+                                            <span className="slider round"></span>
                                         </label>
                                     </td>
 
@@ -229,26 +243,15 @@ export default function AdminManagement() {
                                         <label className="switch">
                                             <input
                                                 type="checkbox"
-                                                checked={!admin.is_disabled}
-                                                onChange={() => toggleAdminStatus(admin.id)}
-                                                disabled={admin.domain_owner} // Prevent toggling if admin is a domain owner
+                                                checked={!admin.is_user_exist}
+                                                onChange={() => SwitchAdmin(admin,"is_user_exist")}
+                                                disabled={admin.domain_owner &&CurrentUser?.role_id !== 1} // Prevent toggling if admin is a domain owner
                                             />
                                             <span className="slider round"></span>
                                         </label>
                                     </td>
 
-
-
-                                   <td>
-                                    <label className="switch">
-                                            <input
-                                            type="checkbox"
-                                            checked={!admin.is_user_exist}
-                                            // onChange={() => toggleAdminStatus(admin.id)}
-                                        />
-                                        <span className="slider round"></span>
-                                        </label>
-                                    </td>
+                                  
                                     <td>{admin.role_id}</td>
                                     <td>{admin.profile_picture_url}</td>
                                     <td>
@@ -265,8 +268,8 @@ export default function AdminManagement() {
                             ))}
                         </tbody>
                     </table>
-                    <button style={{ background: "none", border: "none", cursor: "pointer" }}>
-                        <Plus size={24} color="green" /> Add User
+                    <button className="addAdmin" style={{ border: "none", cursor: "pointer" }}>
+                        <Plus  size={24} color="green" /> Add User
                     </button>
                 </div>
             ) : (
@@ -276,9 +279,9 @@ export default function AdminManagement() {
                 {step === 2 && (
                 <div className="EditDiv">
                     <h2 className="text-lg font-bold mb-4">Edit Admin</h2>
-                    
+                    <form>
                     {Object.entries(formData).map(([field, value]) => (
-                        !["id", "expire_at", "created_at", "updated_at",'domain_id','password'].includes(field) && (
+                        !["id", "expire_at", "created_at", "updated_at",'domain_id','password','is_user_exist','is_disabled','domain_owner'].includes(field) && (
                            
                             <label key={field} className="block mb-2">
                                 {field.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}:
@@ -290,8 +293,10 @@ export default function AdminManagement() {
                                 )}
                                  
                             </label>
+                            
                         )
                     ))}
+                    </form>
                     <div className="flex justify-end gap-2">
                         <button onClick={() => setStep(1)} className="bg-gray-400 text-white px-4 py-2 rounded">Cancel</button>
                         <button onClick={() => editAdmin()} className="bg-blue-500 text-white px-4 py-2 rounded">Save</button>

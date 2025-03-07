@@ -145,6 +145,41 @@ nav {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(255, 255, 255, 0.1);
     overflow-x: hidden;
     overflow-y: scroll;
+    z-index: 10;
+}
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+    nav {
+        width: 150px; /* Make the sidebar smaller */
+        padding: 10px;
+    }
+    
+    nav a {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .dashboard {
+        flex-direction: column;
+        height: auto;
+        padding: 10px; /* Add some padding for better spacing */
+    }
+
+}
+@media (max-width: 480px) {
+    nav {
+        width: 100%; /* Full width on very small screens */
+        height: auto;
+        position: relative; /* Allows it to scroll with the page */
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+    nav a {
+        padding: 8px;
+        font-size: 14px;
+        text-align: center;
+        flex-grow: 1;
+    }
 }
 
 nav a {
@@ -170,10 +205,21 @@ nav a:hover {
 
 h1 {
     color: white;
-    margin-left: 270px;
     font-size: 24px;
     padding: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 .active-button {
     background: rgba(0, 173, 181, 0.8) !important;
@@ -187,6 +233,7 @@ h1 {
     cursor: pointer;
   } 
   
+
 /* ---------------------------------- */
 
 .forgotpassword {

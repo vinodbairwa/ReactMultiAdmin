@@ -313,3 +313,11 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+
+
+  .addAdmin:hover{
+    color: black;
+  }
+
+

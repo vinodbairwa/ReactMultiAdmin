@@ -1,18 +1,26 @@
 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect ,useContext} from "react";
 import { Pencil } from "lucide-react";
 import { Trash } from "lucide-react";
 import { Plus } from "lucide-react";
-
+import { UserContext } from "./currentUser"; 
 import AddUser from "./addusers";
 
+import UsersAddress from "./UserAddress";
+import UserPlan from "./userPlan"
+import UserRole from './userRole'
+
 export default function  UserManagement() {
-    const [activeButton, setActiveButton] = useState("");
+
+    const [activeButton, setActiveButton] = useState("UsersGet");
     const [users, setUsers] = useState([]);
     const [usersAddress, setUsersAddress] = useState([]);
     const [step ,setStep] = useState(1);
     const [userId, setUserId] = useState();
+    
+
+    const { CurrentUser} = useContext(UserContext);
  
     const [formData, setFormData] = useState({ name: "", email: "", mobile: "", gender: "" });
 
@@ -128,9 +136,9 @@ export default function  UserManagement() {
                     throw new Error(`Error: ${response.statusText}`);
                 }
                 const data = await response.json();
-                if (data.User_Address_Data) {
+                if (data.data) {
 
-                    setUsersAddress(data.User_Address_Data)
+                    setUsersAddress(data.data)
                     
                 }
             } catch (error) {
@@ -153,6 +161,62 @@ export default function  UserManagement() {
             // handleEditUser()
         }
     
+const SwitchAdmin = async (user, field) => {
+    
+    try {
+        if (!CurrentUser) {
+            alert("User data is not loaded. Please try again.");
+            return;
+        }
+        console.log(CurrentUser.role_id)
+        if (field === "is_disabled") {
+            if (CurrentUser.domain_owner && CurrentUser.role_id !== 1) {
+                alert("You cannot update another domain owner's status.");
+                return;
+            }
+        }
+
+        if (field === "domain_owner" && CurrentUser.role_id !== 1) {
+            alert("Only super admin (role_id 1) can change domain owner status.");
+            return;
+        }
+
+// Toggle field value
+        const updatedFields = { [field]: !user[field] };
+
+        console.log(`Editing admin ${user.id}:`, updatedFields);
+
+        const response = await fetch(`http://localhost:8000/Admin/User/Update/${user.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+            },
+            credentials: "include",
+            body: JSON.stringify(updatedFields),
+        });
+
+        const responseData = await response.json();
+        if (!response.ok) {
+            throw new Error(responseData.detail || "An error occurred while updating the user.");
+        }
+
+        // ✅ Update local state
+        setUsers((prevAdmins) =>
+            prevAdmins.map((a) =>
+                a.id === user.id ? { ...a, [field]: !a[field] } : a
+            )
+        );
+        fetchUsers();
+
+        console.log("Admin updated successfully!");
+    } catch (error) {
+        console.error("Error updating admin:", error);
+        alert(error.message);
+    }
+};
+
+    
     useEffect(() => {
      
             fetchUsers();
@@ -165,31 +229,25 @@ export default function  UserManagement() {
         <div id="navbarUsers">
             
              {/* <h1 id="mainheading">Hello Admin Dashboard !</h1> */}
-            <navbar>
-                <button onClick={() => setActiveButton("UsersGet")}
+            <div id="navbar">
+                <button onClick={() => {setActiveButton("UsersGet"); setStep(1);}}
                     className={activeButton === "UsersGet" ? "active-button" : "inactive-button"}>
-                    Users
+                    UsersGet
                 </button>
-                <button onClick={() => setActiveButton("userAddress")}
+                <button onClick={() => {setActiveButton("userAddress"); setStep(4);}}
                      className={activeButton === "userAddress" ? "active-button" : "inactive-button"}>
                   UserAddress
                 </button>
-                <button onClick={() => setActiveButton("UserPlans")}
+                <button onClick={() => {setActiveButton("UserPlans"); setStep(5);}}
                     className={activeButton === "UserPlans" ? "active-button" : "inactive-button"}>
                     UserPlan
                 </button>
-                <button onClick={() => setActiveButton("UserRole")}
+                <button onClick={() => {setActiveButton("UserRole"); setStep(6);}}
                     className={activeButton === "UserRole" ? "active-button" : "inactive-button"}>
                     UserRole
                 </button>
      
-            </navbar>
-        
-         
-            {/* {activeButton === "UsersGet" && UserAddress()}
-                {activeButton === "userAddress" &&UserPlan()}
-                {activeButton === "UserPlans" && UserAddress()}
-                {activeButton === "UserRole" && UserAddress()}  */}
+            </div>
             
             {step === 1 && (users.length > 0 ? ( 
                 <div className="users">
@@ -223,7 +281,19 @@ export default function  UserManagement() {
                                     <td>{user.gender}</td>
                                     <td>{user.mobile}</td>
                                     <td>{userAddress ? userAddress.address_1 : "No Address"}</td>
-                                    <td>{user.is_disabled ? "Yes" : "No"}</td>
+
+                                    <td>
+                                        <label className="switch">
+                                            <input
+                                                type="checkbox"
+                                                checked={!user.is_disabled}
+                                                onChange={() => SwitchAdmin(user,"is_disabled")}
+                                                // disabled={admin.domain_owner &&CurrentUser?.role_id !== 1 } // Prevent domain owner from disabling another domain owner
+                                            />
+                                            <span className="slider round"></span>
+                                        </label>
+                                    </td>
+                                    {/* <td>{user.is_disabled ? "Yes" : "No"}</td> */}
                                     <td>{user.plan_id}</td>
                                     <td>{user.trading ? "Yes" : "No"}</td>
                                     <td>{user.sales_by}</td>
@@ -327,6 +397,31 @@ export default function  UserManagement() {
             <button id="BackUser" onClick={() => setUserId(null)||setStep(1)}>Back to Users</button>
             </div>
       )}
+
+
+        {step === 4 && (
+                    <div className="UsersMenu">
+                        <UsersAddress />
+                {/* Optionally, add a button to return to step 1 */}
+                   
+                    </div>
+            )}
+        
+        {step === 5 && (
+                    <div className="UsersMenu">
+                        <UserPlan />
+                {/* Optionally, add a button to return to step 1 */}
+                    
+                    </div>
+            )}
+        
+        {step === 6 && (
+                    <div className="UsersMenu">
+                        <UserRole />
+                {/* Optionally, add a button to return to step 1 */}
+                    
+                    </div>
+            )}
 
     </div>
     );

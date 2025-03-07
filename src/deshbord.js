@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard">
-            <h1 id="mainheading">Hello Admin Dashboard !</h1>
+            <h1 id="mainheading">SuperAdmin Dashboard !</h1>
             <nav>
                 <Link to="/dashboard" className={activeModule === "dashboard" ? "active-button" : "inactive-button"}>
                     Dashboard Overview
@@ -33,7 +33,12 @@ export default function Dashboard() {
                 </Link>
                 <Link to="/dashboard/brokersWebSockets" className={activeModule === "brokersWebSockets" ? "active-button" : "inactive-button"}>
                     Brokers & WebSockets
+                </Link>  
+
+                <Link to="/dashboard/RolePermissionManage" className={activeModule === "RolePermissionManage" ? "active-button" : "inactive-button"}>
+                Role & Permissions
                 </Link>
+
                 <Link to="/dashboard/reportsLogs" className={activeModule === "reportsLogs" ? "active-button" : "inactive-button"}>
                     Reports & Logs
                 </Link>
