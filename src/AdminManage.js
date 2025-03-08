@@ -181,7 +181,7 @@ const SwitchAdmin = async (admin, field) => {
                 a.id === admin.id ? { ...a, [field]: !a[field] } : a
             )
         );
-        fetchAdmins();
+        // fetchAdmins();/
 
         console.log("Admin updated successfully!");
     } catch (error) {
@@ -253,7 +253,21 @@ const SwitchAdmin = async (admin, field) => {
 
                                   
                                     <td>{admin.role_id}</td>
-                                    <td>{admin.profile_picture_url}</td>
+                               
+                                    <td>
+                                        {admin.profile_picture_url ? (
+                                            <img 
+                                                src={admin.profile_picture_url} 
+                                                alt="Profile" 
+                                                width="50" 
+                                                height="50" 
+                                                style={{ borderRadius: "50%", objectFit: "cover" }} 
+                                            />
+                                        ) : (
+                                            "No Image"
+                                        )}
+                                    </td>
+
                                     <td>
                                         <Pencil size={20} color="#007bff" cursor="pointer" onClick={() => handleClick(admin)} />
                                     </td>
@@ -287,9 +301,19 @@ const SwitchAdmin = async (admin, field) => {
                                 {field.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}:
                                 {typeof value === "boolean" ? (
                                     
-                                    <input type="checkbox" name={field} checked={value} onChange={handleInputChange} />
-                                ) : (
-                                    <input type={field === "email" ? "email" : "text"} name={field} value={value} onChange={handleInputChange} className="border p-2 w-full rounded" />
+                                    <input type="checkbox" name={field} 
+                                    checked={value}
+                                    onChange={handleInputChange} />
+                                ) :
+                                 (
+                                    <input type={field === "email" ? "email" : "text"}
+                                     name={field} 
+                                     value={value} 
+                                     onChange={handleInputChange} 
+                                     className="border p-2 w-full rounded"
+                                     disabled={field === "role_id" && CurrentUser.role_id !== 1} // Disable Role ID if not Super Admin
+                                     />
+                                     
                                 )}
                                  
                             </label>

@@ -1,8 +1,15 @@
-
+.dashboardOverview{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    /* border: 2px solid rgb(123, 255, 0); */
+}
 .manual-orders,.broker-orders,.master-orders,.usersCont,.Domain-orders,.Domain-Paper-orders{
     max-width: 1000px;
     width: 340px;
-    /* margin: 20px auto; */
+    margin: 20px auto;
     padding: 20px;
     background: white;
     border-radius: 10px;
@@ -13,6 +20,7 @@
     text-align: center;
     justify-content: center;
     transition: transform 0.3s ease-in-out;
+    /* margin-top: 16px; */
      
 }
 
@@ -29,13 +37,16 @@
 
 .dashboard{
     /* border: 2px solid red; */
-    margin-left: 180px;
-    width: 90%;
+    margin-left: 290px;
+    width: 80%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     position:relative;
     justify-content: center;
-    gap: 90px;
+    gap: 20px;
+    /* height: auto; */
+    /* padding: 20px; */
     
 }
 
@@ -57,7 +68,6 @@
     min-height: 60vh; 
     box-sizing: border-box; 
     /* overflow: scroll; */
-    overflow-x: hidden;
 }
 
 /* Responsive adjustments */
@@ -71,6 +81,13 @@
     }
     .navbarDiv h3 {
         font-size: 1rem;
+    }
+    .dashboard {
+        width: 100%; /* Full width on smaller screens */
+        margin-left: 0; /* Remove left margin */
+        flex-direction: column; /* Stack items vertically */
+        gap: 10px; /* Reduce spacing */
+        padding: 10px; /* Reduce padding */
     }
 
 }
@@ -218,9 +235,9 @@ p {
 
 /* Responsive Users Container */
 .users {
-    max-width: 100%;
-    width: 100%;
-    margin: 20px auto;
+    max-width: 102%;
+    width: 102%;
+    margin: 0 auto;
     padding: 10px;
     background: #fff;
     border-radius: 10px;
@@ -234,21 +251,31 @@ p {
         padding: 5px;
         margin-top: 0;
     }
+    #navbar {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center;
+    }
+
+    #navbar button {
+        width: 100%; /* Make buttons full width */
+        text-align: center;
+    }
 }
 
 
 
 
 #navbar {
-    width: 80%;
+    /* width: 100%; */
     max-width: 800px; /* Prevents it from stretching too wide */
-    margin: 0 auto; /* Centers the navbar itself */
+    margin: 50px auto; /* Centers the navbar itself */
     display: flex;
     padding: 10px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 50px;
+    flex-wrap: wrap;
     /* border: 2px solid red; */
  
 }
@@ -262,6 +289,7 @@ p {
     margin: 10px; /* Adjust for equal spacing */
     background: none; /* Keeps button transparent */
     cursor: pointer;
+    font-size: 16px;
 }
 
 #navbar button:hover {

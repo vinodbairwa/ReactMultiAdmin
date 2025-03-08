@@ -190,7 +190,7 @@ export default function  AddUser() {
             )}
 
             {/* Step 4: Success Message */}
-            {step === 4 && <p>🎉 Signup complete! You can now log in.</p>}
+            {step === 4 && <p>🎉 Signup complete! </p>}
          
         
         </div>

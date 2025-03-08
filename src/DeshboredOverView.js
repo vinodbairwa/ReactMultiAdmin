@@ -320,7 +320,7 @@ export default function DashboardOverView() {
 
 
     return (
-        <div className="dashboard">
+        <div className="dashboardOverview">
            
 
             <div className="usersCont">

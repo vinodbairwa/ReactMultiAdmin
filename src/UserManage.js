@@ -11,6 +11,7 @@ import UsersAddress from "./UserAddress";
 import UserPlan from "./userPlan"
 import UserRole from './userRole'
 
+import { Modal } from "antd";
 export default function  UserManagement() {
 
     const [activeButton, setActiveButton] = useState("UsersGet");
@@ -19,11 +20,17 @@ export default function  UserManagement() {
     const [step ,setStep] = useState(1);
     const [userId, setUserId] = useState();
     
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedImage, setSelectedImage] = useState("");
 
     const { CurrentUser} = useContext(UserContext);
  
-    const [formData, setFormData] = useState({ name: "", email: "", mobile: "", gender: "" });
-
+    const [formData, setFormData] = useState({ name: "", email: "", mobile: "", gender: "" ,Plan_Id: "",Profile_picture_url: ""});
+    
+    const showModal = (imageUrl) => {
+        setSelectedImage(imageUrl);
+        setIsModalVisible(true);
+    };
 
         const fetchUsers = async () => {
            
@@ -156,7 +163,10 @@ export default function  UserManagement() {
                 name: user.name || "",        // Ensures input shows current name
                 email: user.email || "",      // Ensures input shows current email
                 mobile: user.mobile || "",    // Ensures input shows current mobile
-                gender: user.gender || "male" // Ensures gender is preselected
+                gender: user.gender || "male", // Ensures gender is preselected
+                Plan_Id: user.plan_id ,
+                Treding: user.trading,
+
             });
             // handleEditUser()
         }
@@ -265,6 +275,7 @@ const SwitchAdmin = async (user, field) => {
                                 <th>Plans</th>
                                 <th>Trading</th>
                                 <th>SalesById</th>
+                                <th>profile_picture_url</th>
 
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -297,6 +308,23 @@ const SwitchAdmin = async (user, field) => {
                                     <td>{user.plan_id}</td>
                                     <td>{user.trading ? "Yes" : "No"}</td>
                                     <td>{user.sales_by}</td>
+                                    {/* <td>{user.profile_picture_url}</td> */}
+                                    <td>
+                                            {user.profile_picture_url ? (
+                                                <img 
+                                                    src={user.profile_picture_url}  // Ensure this is a direct image URL
+                                                    alt="Profile" 
+                                                    width="50" 
+                                                    height="50" 
+                                                    style={{ borderRadius: "50%", cursor: "pointer" , objectFit: "cover", }}
+                                                    onClick={() => showModal(user.profile_picture_url)} 
+                                                    onError={(e) => { e.target.src = "/logo192.png"; }} // Use relative path from public folder
+                                                />
+                                            ) : (
+                                                "No Image"
+                                            )}
+                                        </td>
+
                                     <td>
                                         <Pencil size={20} color="#007bff" cursor="pointer" onClick={() => handleClick(user)} />
                                     </td>
@@ -318,7 +346,33 @@ const SwitchAdmin = async (user, field) => {
 
 
                         </tbody>
-                        
+                         {/* Ant Design Modal */}
+            <Modal
+                open={isModalVisible}
+                onCancel={() => setIsModalVisible(false)}
+                footer={null}
+                centered
+                width={300} 
+                bodyStyle={{
+                    backgroundColor: "#007bff", // Blue background
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minHeight: "300px",
+                  
+                }}
+            >
+                <img
+                    src={selectedImage}
+                    alt="Full Size"
+                    style={{  width: "550px",
+                        height: "400px",
+                        borderRadius: "100%", // Fully rounded
+                        objectFit: "cover",
+                        border: "5px solid white",
+                    }}
+                />
+            </Modal>
                     </table> 
                     <button  onClick={() => setStep(3)} style={{ background: "none", border: "none", cursor: "pointer" }}>
                                 <Plus size={24} color="green" /> Adduser
@@ -377,6 +431,49 @@ const SwitchAdmin = async (user, field) => {
                                 <option value="other">Other</option>
                             </select>
                         </label>
+
+                        <label className="block mb-2">
+                            Plan_Id:
+                            <input
+                                type="number"
+                                name="plan_id"
+                                value={formData.plan_id}
+                                onChange={handleInputChange}
+                                className="border p-2 w-full rounded"
+                            />
+                        </label>
+
+                        <label className="block mb-2">
+                            Treding:
+                            <input
+                                type="number"
+                                name="trading"
+                                value={formData.trading}
+                                onChange={handleInputChange}
+                                className="border p-2 w-full rounded"
+                            />
+                        </label>
+                        <label className="block mb-2">
+                            Sales_by:
+                            <input
+                                type="number"
+                                name="sales_by"
+                                value={formData.sales_by}
+                                onChange={handleInputChange}
+                                className="border p-2 w-full rounded"
+                            />
+                        </label>
+
+                        <label className="block mb-2">
+                        Profile_picture_url:
+                            <input
+                                type="text"
+                                name="profile_picture_url"
+                                value={formData.profile_picture_url}
+                                onChange={handleInputChange}
+                                className="border p-2 w-full rounded"
+                            />
+                        </label>
                         <div className="flex justify-end gap-2">
                             <button onClick={() => setUserId(null) || setStep(1)} className="bg-gray-400 text-white px-4 py-2 rounded">
                                 Cancel
@@ -394,7 +491,7 @@ const SwitchAdmin = async (user, field) => {
             <div className="UsersAdd">
                 <AddUser />
           {/* Optionally, add a button to return to step 1 */}
-            <button id="BackUser" onClick={() => setUserId(null)||setStep(1)}>Back to Users</button>
+            <button id="BackUser" onClick={() =>  {setStep(1); fetchUsers();}}>Back to Users</button>
             </div>
       )}
 

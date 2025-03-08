@@ -72,6 +72,7 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     width: 90%;
+    overflow: auto;
 }
 
 /* Footer */
@@ -100,6 +101,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
     
     
 }
@@ -226,7 +228,9 @@
 
 /* ---------------Admins management--------- */
 
-.mainAdmin{
+
+
+.mainAdmin {
     background-color: whitesmoke;
     border-radius: 10px;
     display: flex;
@@ -234,16 +238,55 @@
     justify-content: center;
     align-items: center;
     box-shadow: 0 1px 20px 1px rgba(104, 102, 133, 0.918);
-    
+    width: 80%; /* Default width for larger screens */
+    max-width: 1200px; /* Prevents stretching */
+    margin: 20px auto; /* Centers the div */
+    padding: 20px;
+    overflow: hidden; /* Prevents content from overflowing */
+    /* margin-left: 140px; */
+    z-index: 10;
 }
 
-.adminsTable{
+/* Admins Table inside mainAdmin */
+.adminsTable {
+    width: 100%; /* Full width of parent */
+    max-width: 1200px; /* Prevents stretching too wide */
     border-radius: 10px;
     background-color: whitesmoke;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 15px;
+    overflow-x: hidden; /* Enables horizontal scrolling if needed */
+}
+
+/* Responsive for tablets (768px and below) */
+@media (max-width: 768px) {
+    .mainAdmin {
+        width: 90%; /* Slightly wider for smaller screens */
+        padding: 15px;
+    }
+
+    .adminsTable {
+        width: 95%;
+        padding: 10px;
+    }
+}
+
+/* Responsive for mobile (480px and below) */
+@media (max-width: 480px) {
+    .mainAdmin {
+        width: 95%;
+        padding: 10px;
+        box-shadow: 0 1px 10px 1px rgba(104, 102, 133, 0.5); /* Less shadow for a subtle look */
+    }
+
+    .adminsTable {
+        width: 100%;
+        padding: 8px;
+        overflow-x: auto; /* Allows scrolling if content overflows */
+    }
 }
 
 #total_Admins{
